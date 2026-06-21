@@ -1,12 +1,12 @@
 'use client'
 
-// Set to true, click anywhere on the image to find exact dot coordinates, then set back to false
-const CAL_MODE = true
-
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import InstagramEducation from '@/components/home/InstagramEducation'
 import MLDAnimation from '@/components/home/MLDAnimation'
+
+// Set to true, click anywhere on the image to find exact dot coordinates, then set back to false
+const CAL_MODE = false
 
 // ─── Update these filenames to match what you put in public/images/ ───────────
 const IMG_CAPILLARIES = '/images/lymphatic_capillaries.jpg'
@@ -22,32 +22,32 @@ type Hotspot = {
 }
 
 const CAPILLARY_SPOTS: Hotspot[] = [
-  { id: 'subclavian', label: 'Subclavian Vein',        x: 26, y: 14, color: '#7DCFB0',
+  { id: 'subclavian', label: 'Subclavian Vein',        x: 77, y: 14, color: '#7DCFB0',
     description: 'The final destination for lymph. The thoracic duct empties cleaned lymph fluid back into the bloodstream here — completing the entire lymphatic circuit.' },
-  { id: 'thoracic',   label: 'Thoracic Duct',          x: 24, y: 30, color: '#7DCFB0',
+  { id: 'thoracic',   label: 'Thoracic Duct',          x: 60, y: 18, color: '#7DCFB0',
     description: 'The body\'s largest lymphatic vessel. It collects lymph from the lower body and left upper body, then carries it up to the subclavian vein in the chest.' },
-  { id: 'heart',      label: 'Heart',                  x: 63, y: 33, color: '#E76F51',
+  { id: 'heart',      label: 'Heart',                  x: 77, y: 26, color: '#E76F51',
     description: 'Unlike blood, lymph has no heart to pump it. Instead, it moves through breathing, muscle contractions and a network of one-way valves — a passive but highly effective system.' },
-  { id: 'lymphnode',  label: 'Lymph Node',             x: 21, y: 48, color: '#3DB489',
+  { id: 'lymphnode',  label: 'Lymph Node',             x: 61, y: 30, color: '#3DB489',
     description: 'Bean-shaped immune stations distributed throughout the body. They filter lymph, trapping pathogens, damaged cells and cancer cells — and are where immune responses are coordinated.' },
-  { id: 'duct',       label: 'Lymphatic Duct',         x: 21, y: 58, color: '#3DB489',
+  { id: 'duct',       label: 'Lymphatic Duct',         x: 65, y: 44, color: '#3DB489',
     description: 'Larger collecting vessels that gather lymph from multiple lymphatic vessels and transport it toward the major lymph nodes and eventually the subclavian vein.' },
-  { id: 'vessel',     label: 'Lymphatic Vessel',       x: 21, y: 67, color: '#2A9D8F',
+  { id: 'vessel',     label: 'Lymphatic Vessel',       x: 78, y: 69, color: '#2A9D8F',
     description: 'Thin-walled tubes — similar to veins — that carry lymph fluid from the capillaries toward the lymph nodes. They contain valves to keep fluid moving in one direction only.' },
-  { id: 'capillary',  label: 'Lymphatic Capillary',   x: 18, y: 76, color: '#B8EEDD',
+  { id: 'capillary',  label: 'Lymphatic Capillary',   x: 59, y: 75, color: '#B8EEDD',
     description: 'The starting point of the lymphatic journey. These microscopic vessels absorb excess fluid, proteins, and cellular waste from between tissue cells — forming lymph fluid.' },
 ]
 
 const ANATOMY_SPOTS: Hotspot[] = [
-  { id: 'head',       label: 'Head & Neck Nodes',      x: 48, y: 12, color: '#7DCFB0',
+  { id: 'head',       label: 'Head & Neck Nodes',      x: 77, y: 25, color: '#7DCFB0',
     description: 'Clusters of lymph nodes around the jaw, neck and ears drain lymph from the face and scalp. Swollen nodes here are often the first sign of infection.' },
-  { id: 'axilla',     label: 'Axillary Nodes (Armpit)', x: 22, y: 38, color: '#3DB489',
+  { id: 'axilla',     label: 'Axillary Nodes (Armpit)', x: 86, y: 40, color: '#3DB489',
     description: 'A major lymph node cluster in each armpit. Critically important in breast cancer — cancer cells often spread here first, which is why surgeons remove or test them during procedures.' },
-  { id: 'spleen',     label: 'Spleen',                 x: 38, y: 50, color: '#2A9D8F',
+  { id: 'spleen',     label: 'Spleen',                 x: 73, y: 57, color: '#2A9D8F',
     description: 'The largest lymphatic organ. It filters blood (not lymph), destroys old red blood cells, and stores immune cells. Think of it as the lymphatic system\'s quality control centre.' },
-  { id: 'groin',      label: 'Inguinal Nodes (Groin)', x: 42, y: 70, color: '#3DB489',
+  { id: 'groin',      label: 'Inguinal Nodes (Groin)', x: 78, y: 68, color: '#3DB489',
     description: 'Lymph nodes in the groin drain the lower body including the legs and pelvis. Blockage or damage here is one of the most common causes of lower-limb lymphedema.' },
-  { id: 'legs',       label: 'Lower Limb Lymphatics',  x: 35, y: 84, color: '#7DCFB0',
+  { id: 'legs',       label: 'Lower Limb Lymphatics',  x: 75, y: 80, color: '#7DCFB0',
     description: 'The legs have an extensive network of superficial and deep lymphatic vessels. When these are damaged or overwhelmed, fluid builds up — producing the characteristic swelling of lymphedema.' },
 ]
 
@@ -106,7 +106,16 @@ function DiagramPanel({
   image, spots, title, subtitle
 }: { image: string; spots: Hotspot[]; title: string; subtitle: string }) {
   const [active, setActive] = useState<Hotspot | null>(null)
+  const [calPos, setCalPos] = useState<{ x: number; y: number } | null>(null)
   const toggle = (s: Hotspot) => setActive(prev => prev?.id === s.id ? null : s)
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!CAL_MODE) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100)
+    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100)
+    setCalPos({ x, y })
+    }
+  
 
   return (
     <div>
@@ -122,13 +131,26 @@ function DiagramPanel({
       <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-5 items-start">
 
         {/* Image + hotspots */}
-        <div className="relative rounded-2xl overflow-hidden border border-brand-border bg-brand-bg">
+        <div
+          className="relative rounded-2xl overflow-hidden border border-brand-border bg-brand-bg"
+          onClick={handleClick}
+          style={{ cursor: CAL_MODE ? 'crosshair' : 'default' }}
+        >
           <img
             src={image}
             alt={title}
             className="w-full h-auto block"
             draggable={false}
           />
+
+          {/* Calibration badge — shows coordinates when CAL_MODE is true */}
+          {CAL_MODE && calPos && (
+            <div className="absolute top-3 left-3 z-20 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg pointer-events-none">
+              x: {calPos.x} &nbsp; y: {calPos.y}
+            </div>
+          )}
+
+          {/* Hotspot dots */}
           {spots.map(s => (
             <HotspotDot
               key={s.id}
@@ -458,7 +480,16 @@ export default function LymphaticEducation() {
             ))}
           </div>
 
-          {/* Bridge to the conditions */}
+          
+        </div>
+      </div>
+    {/* ── MLD animation + 3D flip card ── */}
+    <MLDAnimation />
+
+    {/* ── Organized Instagram videos ── */}
+    <InstagramEducation />
+
+    {/* Bridge to the conditions */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -484,14 +515,7 @@ export default function LymphaticEducation() {
               </motion.div>
             </div>
           </motion.div>
-        </div>
-      </div>
-    {/* ── MLD animation + 3D flip card ── */}
-    <MLDAnimation />
-
-    {/* ── Organized Instagram videos ── */}
-    <InstagramEducation />
-
+          
     </section>
   )
 }

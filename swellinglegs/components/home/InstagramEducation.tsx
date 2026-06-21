@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Script from 'next/script'
+// import Script from 'next/script'
 
 // ════════════════════════════════════════════════════════════════════════
 //  ADD YOUR VIDEOS HERE — this is the only place you need to edit
@@ -18,28 +18,28 @@ import Script from 'next/script'
 
 const VIDEOS = [
   {
-    url: 'https://www.instagram.com/p/REPLACE_ME_1/',
-    title: 'What is the lymphatic system?',
-    summary: 'A short introduction to how the lymphatic system works, why it matters and what it does for your body every single day.',
-    tags: ['education', 'lymphatics'],
+    url: 'https://www.instagram.com/reels/DZiD4k4tfa0/',
+    title: 'Lipedema Awareness Month: Understanding Lymphatic Massage',
+    summary: 'Nurse Nielsen explains how manual lymphatic drainage can help manage symptoms of lipedema, including swelling, pain, and heaviness. Learn why treatment by a certified lymphatic therapist is important and how it fits into a comprehensive lipedema care plan.',
+    tags: ['lipedema', 'lymphatic-drainage', 'awareness'],
   },
   {
-    url: 'https://www.instagram.com/p/REPLACE_ME_2/',
-    title: 'Understanding lymphedema',
-    summary: 'An overview of what lymphedema is, how it develops, and the earliest signs that something may be wrong with your lymphatic system.',
-    tags: ['lymphedema', 'swelling'],
+    url: 'https://www.instagram.com/reels/DWjaVAtDWSB/',
+    title: 'Do Varicose Veins Always Come Back?',
+    summary: 'Dr. Ibrahim Riza discusses a common misconception about varicose veins and explains how modern ultrasound-guided treatments, such as laser and glue procedures, have significantly improved long-term outcomes and reduced recurrence rates.',
+    tags: ['varicose-veins', 'vascular-health', 'treatment'],
   },
   {
-    url: 'https://www.instagram.com/p/REPLACE_ME_3/',
-    title: 'Lipedema — not just weight gain',
-    summary: 'Lipedema affects millions of women and is consistently misdiagnosed as obesity. This video explains what makes it different.',
-    tags: ['lipedema', 'awareness'],
+    url: 'https://www.instagram.com/reels/DUVZJCBDc4t/',
+    title: 'Frequently Asked Questions About Lymphatic Drainage',
+    summary: 'Nurse Nielsen answers common questions about lymphatic drainage therapy, including how it helps with lymphedema and lipedema, its safety during pregnancy, expected results, and its benefits for both body and facial swelling.',
+    tags: ['lymphatic-drainage', 'lymphedema', 'lipedema'],
   },
   {
-    url: 'https://www.instagram.com/p/REPLACE_ME_4/',
-    title: 'Manual lymph drainage explained',
-    summary: 'A demonstration of how MLD therapy works and why gentle pressure — not deep massage — is the correct approach for lymphedema treatment.',
-    tags: ['treatment', 'MLD'],
+    url: 'https://www.instagram.com/reels/DZFL5YqtMxa/',
+    title: 'What Can a Vascular Screening Detect?',
+    summary: 'Dr. Ibrahim Riza explains the importance of vascular screening and the conditions it can help identify, including varicose veins, venous insufficiency, deep vein thrombosis (DVT), peripheral arterial disease, carotid artery disease, and aneurysms.',
+    tags: ['vascular-screening', 'vascular-health', 'prevention'],
   },
 ]
 
@@ -49,22 +49,15 @@ function isPlaceholder(url: string) {
   return url.includes('REPLACE_ME')
 }
 
+function getShortcode(url: string) {
+  const match = url.match(/\/(p|reel)\/([A-Za-z0-9_-]+)/)
+  return match ? match[2] : ''
+}
+
 function InstagramEmbed({ url }: { url: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  // Re-process embed when this specific card mounts
-  const onMount = (node: HTMLDivElement | null) => {
-    if (!node) return
-    setTimeout(() => {
-      if (typeof window !== 'undefined' && (window as any).instgrm) {
-        ;(window as any).instgrm.Embeds.process()
-      }
-    }, 150)
-  }
-
   if (isPlaceholder(url)) {
     return (
-      <div className="w-full aspect-[9/16] sm:aspect-[4/5] max-w-sm mx-auto rounded-2xl border-2 border-dashed border-brand-border bg-brand-bg flex flex-col items-center justify-center gap-3 text-center p-6">
+      <div className="w-full max-w-sm mx-auto rounded-2xl border-2 border-dashed border-brand-border bg-brand-bg flex flex-col items-center justify-center gap-3 text-center p-6" style={{ minHeight: '360px' }}>
         <div className="w-14 h-14 bg-brand-pale-mint rounded-full flex items-center justify-center">
           <i className="ti ti-brand-instagram text-2xl text-brand-deep-mint" />
         </div>
@@ -76,13 +69,20 @@ function InstagramEmbed({ url }: { url: string }) {
     )
   }
 
+  const shortcode = getShortcode(url)
+  if (!shortcode) return null
+
   return (
-    <div ref={onMount} className="w-full max-w-sm mx-auto">
-      <blockquote
-        className="instagram-media"
-        data-instgrm-permalink={url}
-        data-instgrm-version="14"
-        style={{ maxWidth: '100%', width: '100%', margin: 0 }}
+    <div className="w-full max-w-sm mx-auto rounded-2xl overflow-hidden border border-brand-border bg-white">
+      <iframe
+        src={`https://www.instagram.com/p/${shortcode}/embed/`}
+        width="100%"
+        height="580"
+        frameBorder="0"
+        scrolling="no"
+        allowFullScreen
+        title="Instagram post"
+        style={{ display: 'block' }}
       />
     </div>
   )
@@ -117,7 +117,7 @@ export default function InstagramEducation() {
 
   return (
     <div className="py-20 px-5 bg-white border-y border-brand-border overflow-hidden">
-      <Script src="https://www.instagram.com/embeds.js" strategy="lazyOnload" />
+      {/* <Script src="https://www.instagram.com/embeds.js" strategy="lazyOnload" /> */}
 
       <div className="max-w-5xl mx-auto">
 

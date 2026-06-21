@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 // Replace these with your real clinic photos
 const slides = [
-  { src: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80', alt: 'Medical professional consulting with patient' },
-  { src: 'https://images.unsplash.com/photo-1631815588090-d4bfec5b1b89?auto=format&fit=crop&w=1920&q=80', alt: 'Clinic consultation room' },
-  { src: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=1920&q=80', alt: 'Healthcare treatment session' },
-  { src: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=1920&q=80', alt: 'Medical team' },
+  { src: '/images/hero1.jpg', alt: 'Lymphatic Massage Sample' },
+  { src: '/images/hero2.jpg', alt: 'Team Pic' },
+  { src: '/images/hero3.jpg', alt: 'Session' },
+  { src: '/images/hero4.jpg', alt: 'Edema' },
+  { src: '/images/hero5.jpg', alt: 'Dubai' },
 ]
 
 export default function HeroCarousel() {

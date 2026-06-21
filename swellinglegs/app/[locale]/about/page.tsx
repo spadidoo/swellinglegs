@@ -175,8 +175,12 @@ export default function AboutPage() {
                 className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center"
               >
                 <div>
-                  <div className="w-16 h-16 bg-brand-pale-mint rounded-2xl flex items-center justify-center mb-6">
-                    <i className="ti ti-building-hospital text-3xl text-brand-deep-mint" />
+                  <div className="h-16 w-auto mb-6 flex items-center">
+                    <img
+                      src="/images/herald-logo-icon.png"
+                      alt="Herald Medical and General Trading"
+                      className="h-full w-auto object-contain"
+                    />
                   </div>
                   <h3 className="text-2xl font-bold text-brand-forest mb-4">Herald Medical and General Trading</h3>
                   <p className="text-brand-fern leading-relaxed mb-4">
@@ -189,14 +193,14 @@ export default function AboutPage() {
                 <div className="bg-brand-bg rounded-3xl p-8 border border-brand-border">
                   <div className="space-y-4">
                     {[
-                      { icon: 'ti-map-pin', label: 'Based in', value: 'Dubai, UAE' },
-                      { icon: 'ti-stethoscope', label: 'Focus', value: 'Lymphedema & Lipedema care' },
-                      { icon: 'ti-users', label: 'Mission', value: 'Patient-first specialist care' },
-                      { icon: 'ti-phone', label: 'WhatsApp', value: '050 791 0902' },
+                      { label: 'Based in', value: 'Dubai, UAE', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> },
+                      { label: 'Focus', value: 'Lymphedema & Lipedema care', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> },
+                      { label: 'Mission', value: 'Patient-first specialist care', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
+                      { label: 'WhatsApp', value: '050 791 0902', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 9.81a19.79 19.79 0 0 1-3.07-8.69A2 2 0 0 1 2.18 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L6.91 8.09a16 16 0 0 0 6 6l.62-.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> },
                     ].map(item => (
                       <div key={item.label} className="flex items-center gap-3">
-                        <div className="w-9 h-9 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0">
-                          <i className={`ti ${item.icon} text-brand-deep-mint text-sm`} />
+                        <div className="w-9 h-9 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0 text-brand-deep-mint">
+                          {item.svg}
                         </div>
                         <div>
                           <div className="text-xs text-brand-fern">{item.label}</div>
@@ -217,8 +221,12 @@ export default function AboutPage() {
                 className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center"
               >
                 <div>
-                  <div className="w-16 h-16 bg-brand-pale-mint rounded-2xl flex items-center justify-center mb-6">
-                    <i className="ti ti-heart-rate text-3xl text-brand-deep-mint" />
+                  <div className="h-14 w-auto mb-6 flex items-center">
+                    <img
+                      src="https://dubaivascular.ae/wp-content/uploads/dr-ibrahim-riza-logo-web.png"
+                      alt="Dubai Vascular"
+                      className="h-full w-auto object-contain"
+                    />
                   </div>
                   <h3 className="text-2xl font-bold text-brand-forest mb-4">Dubai Vascular</h3>
                   <p className="text-brand-fern leading-relaxed mb-4">
@@ -240,14 +248,14 @@ export default function AboutPage() {
                 <div className="bg-brand-bg rounded-3xl p-8 border border-brand-border">
                   <div className="space-y-4">
                     {[
-                      { icon: 'ti-clock',        label: 'Experience', value: '22+ years' },
-                      { icon: 'ti-clipboard',    label: 'Procedures',  value: '5,000+' },
-                      { icon: 'ti-building',     label: 'Locations',   value: 'Genesis Healthcare & HealthHub Dubai' },
-                      { icon: 'ti-brand-x',      label: 'Twitter',     value: '@vascular10' },
+                      { label: 'Experience', value: '22+ years', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> },
+                      { label: 'Procedures', value: '5,000+', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> },
+                      { label: 'Locations', value: 'Genesis Healthcare & HealthHub Dubai', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+                      { label: 'Twitter / X', value: '@vascular10', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> },
                     ].map(item => (
                       <div key={item.label} className="flex items-center gap-3">
-                        <div className="w-9 h-9 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0">
-                          <i className={`ti ${item.icon} text-brand-deep-mint text-sm`} />
+                        <div className="w-9 h-9 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0 text-brand-deep-mint">
+                          {item.svg}
                         </div>
                         <div>
                           <div className="text-xs text-brand-fern">{item.label}</div>

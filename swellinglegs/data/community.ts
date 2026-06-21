@@ -77,18 +77,6 @@ export const events: EventItem[] = [
     // No image or link for this one — both are optional
   },
 
-  {
-    id: 3,
-    title: 'Community Health Fair',
-    date: new Date('2026-09-06'),
-    time: '9:00 AM – 5:00 PM',
-    location: 'Dubai Mall Atrium',
-    description: 'Free consultations, educational materials, and awareness activities. Come meet our team and learn about our services.',
-    type: 'Community event',
-    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=800&q=70',
-    link: 'https://wa.me/971507910902?text=Hi%2C%20I%20am%20interested%20in%20the%20Community%20Health%20Fair%20on%20September%206th.',
-  },
-
 ]
 
 
@@ -189,13 +177,17 @@ export const galleryPhotos: GalleryPhoto[] = [
 
   // ── Add more photos here — the grid adjusts automatically ──
 
-  { src: 'https://images.unsplash.com/photo-1631217868264-e6274c3a1ced?auto=format&fit=crop&w=800&q=80', alt: 'Clinic consultation room', caption: 'Our consultation suite' },
-  { src: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80', alt: 'Doctor consulting patient', caption: 'Expert one-on-one care' },
-  { src: 'https://images.unsplash.com/photo-1631815588090-d4bfec5b1b89?auto=format&fit=crop&w=800&q=80', alt: 'Medical team at work', caption: 'Our dedicated team' },
-  { src: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80', alt: 'Medical equipment', caption: 'State-of-the-art equipment' },
-  { src: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80', alt: 'Healthcare professionals', caption: 'Our specialist team' },
-  { src: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=800&q=80', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
-
+  { src: '/images/photo1.jpg', alt: 'Clinic consultation room', caption: 'Our consultation suite' },
+  { src: '/images/photo2.jpg', alt: 'Doctor consulting patient', caption: 'Expert care for every patient' },
+  { src: '/images/photo3.jpg', alt: 'Medical team at work', caption: 'Our dedicated team' },
+  { src: '/images/photo4.jpg', alt: 'Medical equipment and care', caption: 'State-of-the-art equipment' },
+  { src: '/images/photo5.jpg', alt: 'Healthcare professionals', caption: 'Our specialist team' },
+  { src: '/images/photo6.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
+  { src: '/images/photo7.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
+  { src: '/images/photo8.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
+  { src: '/images/photo9.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
+  { src: '/images/photo10.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
+  { src: '/images/photo11.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
 ]
 
 

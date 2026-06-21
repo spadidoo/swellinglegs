@@ -1,0 +1,14 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.autoIndent": "full",
+  "editor.detectIndentation": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.trimTrailingWhitespace": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

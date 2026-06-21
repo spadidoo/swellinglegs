@@ -8,9 +8,11 @@ interface Props {
   poster?: string       // e.g. '/images/clinic-thumb.jpg'
   title: string
   description?: string
+  credit?: string        // name of the hospital or source
+  creditUrl?: string  
 }
 
-export default function VideoPlayer({ src, poster, title, description }: Props) {
+export default function VideoPlayer({ src, poster, title, description, credit, creditUrl }: Props) {
   const videoRef    = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [playing, setPlaying] = useState(false)
@@ -99,10 +101,16 @@ export default function VideoPlayer({ src, poster, title, description }: Props) 
                 aria-label={playing ? 'Pause video' : 'Play video'}
                 className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 flex items-center justify-center hover:bg-white/30 transition-colors"
               >
-                {playing
-                  ? <i className="ti ti-player-pause text-white text-2xl" aria-hidden="true" />
-                  : <i className="ti ti-player-play text-white text-2xl" aria-hidden="true" />
-                }
+                {playing ? (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
+                ) : (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                )}
               </button>
             </div>
 
@@ -112,10 +120,18 @@ export default function VideoPlayer({ src, poster, title, description }: Props) 
               aria-label={muted ? 'Unmute' : 'Mute'}
               className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/50 transition-colors"
             >
-              {muted
-                ? <i className="ti ti-volume-off text-sm" aria-hidden="true" />
-                : <i className="ti ti-volume text-sm" aria-hidden="true" />
-              }
+              {muted ? (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+              )}
             </button>
 
             {/* Live indicator when playing */}
@@ -134,10 +150,19 @@ export default function VideoPlayer({ src, poster, title, description }: Props) 
       </div>
 
       {/* Caption */}
-      {(title || description) && (
-        <div className="px-5 py-4">
+      {(title || description || credit) && (
+        <div className="px-5 py-4 border-t border-brand-border">
           {title && <p className="font-semibold text-brand-forest text-sm">{title}</p>}
           {description && <p className="text-brand-fern text-xs mt-1 leading-relaxed">{description}</p>}
+          {credit && (
+            <p className="text-brand-fern/60 text-xs mt-2 italic">
+              Video courtesy of {creditUrl ? (
+                <a href={creditUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-fern transition-colors">
+                  {credit}
+                </a>
+              ) : credit}
+            </p>
+          )}
         </div>
       )}
     </motion.div>

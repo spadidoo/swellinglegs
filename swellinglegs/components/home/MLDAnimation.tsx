@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import VideoPlayer from '@/components/community/VideoPlayer'
 
 // ── MLD techniques — expandable accordion ────────────────────────
 const TECHNIQUES = [
@@ -163,7 +164,7 @@ export default function MLDAnimation() {
             transition={{ delay: 0.2 }}
             className="lg:sticky lg:top-24"
           >
-            <p className="text-brand-forest font-semibold text-sm mb-4">Watch a demonstration</p>
+            
 
             {/*
               To show a video here:
@@ -176,14 +177,14 @@ export default function MLDAnimation() {
                    description="Watch how a specialist performs MLD on a patient."
                  />
             */}
-            <div className="aspect-video bg-brand-bg rounded-2xl border-2 border-dashed border-brand-border flex flex-col items-center justify-center gap-3 text-center p-8">
-              <div className="w-14 h-14 bg-brand-pale-mint rounded-full flex items-center justify-center">
-                <i className="ti ti-player-play text-2xl text-brand-deep-mint" />
-              </div>
-              <p className="text-brand-forest font-medium text-sm">Demo video</p>
-              <p className="text-brand-fern text-xs max-w-[220px] leading-relaxed">
-                Add <code className="bg-brand-pale-mint px-1 rounded">/public/videos/mld-demo.mp4</code> and uncomment the VideoPlayer above to show your demonstration here.
-              </p>
+            <div className="w-full">
+              <VideoPlayer
+                src="/videos/mld-demo.mp4"
+                title="Lymphatic Drainage"
+                description="Massage therapists use lymphatic drainage to help improve lymphatic circulation, decrease swelling and reduce delayed onset muscle soreness."
+                credit="Physio.co.uk"
+                creditUrl="https://www.youtube.com/watch?v=hT6RfGrR2DA"
+              />
             </div>
 
             {/* MLD quick facts */}

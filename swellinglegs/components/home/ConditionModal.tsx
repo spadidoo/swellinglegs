@@ -31,7 +31,7 @@ const conditionData = {
         items: ['Manual lymph drainage (MLD)', 'Compression garments', 'Therapeutic exercise', 'Specialist skin care routine'],
       },
     ],
-    videoId: '', // ← Replace with YouTube video ID
+    videoId: '36Q4xriuqz4', // ← Replace with YouTube video ID
     videoTitle: 'What is Lymphedema? — Educational overview',
   },
   lipedema: {
@@ -58,7 +58,7 @@ const conditionData = {
         items: ['Compression therapy', 'Low-impact aerobic exercise', 'Manual lymph drainage (MLD)', 'Liposuction in advanced cases'],
       },
     ],
-    videoId: '', // ← Replace with YouTube video ID
+    videoId: 'mcWbytIjGq0', // ← Replace with YouTube video ID
     videoTitle: 'What is Lipedema? — Educational overview',
   },
 }
