@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "home": "Home",
+    "community": "Community",
+    "about": "About Us",
+    "contact": "Contact",
+    "book": "Book Now",
+    "bookFull": "Book a Consultation"
+  },
+  "home": {
+    "heroBadge": "Herald Medical and General Trading — UAE",
+    "heroTitle": "About Lymphedema and Lipedema",
+    "heroSubtitle": "Expert care for chronic swelling conditions — and clear information when you need it most.",
+    "heroBtn1": "Lymphedema",
+    "heroBtn2": "Lipedema",
+    "heroBtnHint": "Scroll to learn more",
+    "introText": "Read the cards below — if the symptoms sound familiar, tap",
+    "introHighlight": "Open detailed guide",
+    "introTextEnd": "to see images, videos and treatment information.",
+    "sectionLabel": "What condition are you experiencing?",
+    "sectionTitle": "Recognise your symptoms",
+    "compareLink": "Not sure which applies to you? Compare both conditions side by side",
+    "openGuide": "Open guide — images, videos and more",
+    "lymphedema": {
+      "badge": "Affects men and women",
+      "title": "Lymphedema",
+      "question": "Are you experiencing unexplained swelling in your arms or legs?",
+      "s1": "Noticeable swelling in one or both limbs",
+      "s2": "Feeling of heaviness or tightness",
+      "s3": "Skin that feels firm or changes texture",
+      "s4": "Swelling that worsens after activity or by end of day"
+    },
+    "lipedema": {
+      "badge": "Affects almost exclusively women",
+      "title": "Lipedema",
+      "question": "Do your legs feel heavy and painful, disproportionate to the rest of your body?",
+      "s1": "Legs that look large and feel painful to touch",
+      "s2": "Easy bruising with no clear cause",
+      "s3": "Swelling that does not improve with diet or exercise",
+      "s4": "Feet look normal — only legs and hips are affected"
+    },
+    "stat1v": "10,000+",
+    "stat1l": "Patients helped worldwide",
+    "stat2v": "15+",
+    "stat2l": "Years of specialist expertise",
+    "stat3v": "98%",
+    "stat3l": "Patient satisfaction rate",
+    "ctaBadge": "Clinic Name Placeholder",
+    "ctaTitle": "Ready to speak with a specialist?",
+    "ctaSubtitle": "Our clinic provides expert diagnosis and personalised treatment for lymphedema and lipedema. You deserve answers and a care plan that works.",
+    "ctaButton": "Book a Consultation",
+    "ctaPhone": "Phone: +971 XX XXX XXXX",
+    "ctaEmail": "clinic@email.com",
+    "ctaHours": "Mon to Fri: 8am to 5pm"
+  },
+  "modal": {
+    "bookCta": "Book a Consultation",
+    "bookTitle": "Ready to speak with a specialist?",
+    "bookSub": "Our clinic offers expert diagnosis and personalised treatment plans.",
+    "videoTitle": "Educational Video",
+    "videoSoon": "Video coming soon",
+    "videoHint": "Add a YouTube video ID in ConditionModal.tsx to display it here.",
+    "compareTitle": "Lymphedema vs. Lipedema",
+    "compareLabel": "Key Differences",
+    "compareSub": "Both cause swelling and are often confused. An accurate diagnosis matters because treatments differ significantly.",
+    "compareStillQ": "Still unsure?",
+    "compareStillA": "Book a consultation and speak with a specialist.",
+    "compareFeature": "Feature",
+    "r1f": "Who it affects",
+    "r1l": "Anyone — men and women",
+    "r1r": "Almost exclusively women",
+    "r2f": "Affected area",
+    "r2l": "Arms or legs (often one side)",
+    "r2r": "Legs, hips, sometimes arms",
+    "r3f": "Do feet swell?",
+    "r3l": "Yes — feet often swell",
+    "r3r": "No — feet usually spared",
+    "r4f": "Is it painful?",
+    "r4l": "Not usually painful",
+    "r4r": "Often painful, tender to touch",
+    "r5f": "Main cause",
+    "r5l": "Lymphatic system damage",
+    "r5r": "Hormonal or genetic fat disorder",
+    "r6f": "How is it tested?",
+    "r6l": "Lymphoscintigraphy and clinical",
+    "r6r": "Clinical — no single test",
+    "r7f": "Primary treatment",
+    "r7l": "Compression and MLD",
+    "r7r": "Compression, MLD and exercise"
+  },
+  "anatomy": {
+    "lymphedema": {
+      "swollen": "Swollen limb (typically one side)",
+      "normal": "Unaffected limbs",
+      "node": "Blocked lymph node"
+    },
+    "lipedema": {
+      "fat": "Fat accumulation area",
+      "feet": "Feet — unaffected"
+    }
+  }
+}
