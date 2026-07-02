@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 const VIDEOS = [
   {
@@ -20,7 +21,7 @@ const VIDEOS = [
     poster: undefined as string | undefined,
     title: 'Understanding Lipedema',
     description: 'An overview of lipedema — what it is, how it differs from lymphedema and obesity, and why it is so frequently misdiagnosed despite affecting a significant number of women worldwide.',
-    speaker: 'Dr. Ibrahim Riza',
+    speaker: undefined as string | undefined,
     tag: 'Lipedema',
     tagColor: '#2A9D8F',
   },
@@ -40,7 +41,7 @@ const VIDEOS = [
     poster: undefined as string | undefined,
     title: 'Compression Stockings — How They Help',
     description: 'Learn how compression stockings work, how to wear and fit them correctly, and why they are a key daily component of managing lymphedema, lipedema, and venous conditions.',
-    speaker: 'Dr. Ibrahim Riza',
+    speaker: undefined as string | undefined,
     tag: 'Treatment',
     tagColor: '#E76F51',
   },
@@ -50,7 +51,7 @@ const VIDEOS = [
     poster: undefined as string | undefined,
     title: 'Manual Lymphatic Drainage',
     description: 'A hands-on demonstration of manual lymphatic drainage technique, showing the precise, gentle strokes used to guide lymph fluid from the limbs toward functioning lymph nodes.',
-    speaker: 'Dr. Ibrahim Riza',
+    speaker: undefined as string | undefined,
     tag: 'Treatment',
     tagColor: '#E76F51',
   },
@@ -79,7 +80,16 @@ export default function VideosPlaylist() {
   const [progress,  setProgress]  = useState(0)
   const [failed,    setFailed]    = useState<Record<string, boolean>>({})
   const videoRef = useRef<HTMLVideoElement>(null)
-  const active = VIDEOS[activeIdx]
+  const active   = VIDEOS[activeIdx]
+  const t        = useTranslations('community')
+
+  // Translated tag labels
+  const tagLabel = (tag: string) => {
+    if (tag === 'Education') return t('tagEducation')
+    if (tag === 'Lipedema')  return t('tagLipedema')
+    if (tag === 'Treatment') return t('tagTreatment')
+    return tag
+  }
 
   useEffect(() => {
     setPlaying(false)
@@ -109,17 +119,23 @@ export default function VideosPlaylist() {
 
   return (
     <div>
-      {/* Header */}
+      {/* Header — translated */}
       <div className="mb-8">
-        <p className="text-brand-deep-mint text-xs font-semibold uppercase tracking-widest mb-2">Videos</p>
-        <h2 className="text-2xl sm:text-3xl font-bold text-brand-forest">From the clinic</h2>
-        <p className="text-brand-fern text-sm mt-2">Select a video to watch. All content is from our clinical team.</p>
+        <p className="text-brand-deep-mint text-xs font-semibold uppercase tracking-widest mb-2">
+          {t('videosLabel')}
+        </p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-brand-forest">
+          {t('videosTitle')}
+        </h2>
+        <p className="text-brand-fern text-sm mt-2">
+          {t('videosSelectPrompt')}
+        </p>
       </div>
 
-      {/* ── Layout: player left, sidebar right ── */}
+      {/* Layout: player left, sidebar right */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
 
-        {/* Player — grows to fill available space */}
+        {/* Player */}
         <div className="w-full min-w-0 lg:flex-1">
           <div className="bg-white rounded-2xl border border-brand-border overflow-hidden">
 
@@ -129,7 +145,6 @@ export default function VideosPlaylist() {
               style={{ aspectRatio: '9 / 16', maxHeight: '70vh' }}
             >
               {failed[active.id] ? (
-                /* ── File not found ── */
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-bg">
                   <div className="w-14 h-14 rounded-full bg-brand-pale-mint flex items-center justify-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DB489" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -147,7 +162,6 @@ export default function VideosPlaylist() {
                 </div>
               ) : (
                 <>
-                  {/* Video element */}
                   <video
                     ref={videoRef}
                     src={active.src}
@@ -155,7 +169,7 @@ export default function VideosPlaylist() {
                     muted
                     playsInline
                     preload="metadata"
-                    className="absolute inset-0 w-full h-full object-contain bg-transparent"
+                    className="absolute inset-0 w-full h-full object-contain bg-black"
                     onError={() => setFailed(f => ({ ...f, [active.id]: true }))}
                     onTimeUpdate={() => {
                       const v = videoRef.current
@@ -239,9 +253,8 @@ export default function VideosPlaylist() {
                 </>
               )}
             </div>
-            {/* END video area */}
 
-            {/* Video info panel */}
+            {/* Video info — tag translated */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
@@ -256,7 +269,7 @@ export default function VideosPlaylist() {
                     className="text-xs font-semibold px-2.5 py-0.5 rounded-full text-white"
                     style={{ background: active.tagColor }}
                   >
-                    {active.tag}
+                    {tagLabel(active.tag)}
                   </span>
                   {active.speaker && (
                     <span className="text-xs text-brand-fern flex items-center gap-1">
@@ -276,9 +289,8 @@ export default function VideosPlaylist() {
 
           </div>
         </div>
-        {/* END player */}
 
-        {/* Sidebar playlist — fixed width, never shrinks */}
+        {/* Sidebar playlist */}
         <div className="w-full lg:w-72 lg:flex-shrink-0 flex flex-col gap-2 lg:max-h-[520px] lg:overflow-y-auto">
           {VIDEOS.map((v, i) => {
             const isActive = i === activeIdx
@@ -295,7 +307,6 @@ export default function VideosPlaylist() {
                     : 'bg-white/60 border-brand-border hover:border-brand-deep-mint hover:bg-white'
                 }`}
               >
-                {/* Thumbnail */}
                 <div
                   className="w-16 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: v.tagColor + '22' }}
@@ -308,11 +319,9 @@ export default function VideosPlaylist() {
                     </svg>
                   )}
                 </div>
-
-                {/* Title */}
                 <div className="flex-1 min-w-0">
                   <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: v.tagColor }}>
-                    {v.tag}
+                    {tagLabel(v.tag)}
                   </span>
                   <p className={`text-xs font-medium leading-snug mt-0.5 line-clamp-2 ${isActive ? 'text-brand-forest' : 'text-brand-fern'}`}>
                     {v.title}
@@ -321,7 +330,6 @@ export default function VideosPlaylist() {
                     <p className="text-[10px] text-brand-fern/70 mt-0.5">{v.speaker}</p>
                   )}
                 </div>
-
                 {isActive && (
                   <div className="w-2 h-2 rounded-full bg-brand-deep-mint flex-shrink-0 mt-1" />
                 )}
@@ -329,7 +337,6 @@ export default function VideosPlaylist() {
             )
           })}
         </div>
-        {/* END sidebar */}
 
       </div>
     </div>

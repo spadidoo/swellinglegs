@@ -30,3 +30,17 @@ html[lang="ar"] body {
   /* Arabic-specific letter spacing adjustment */
   letter-spacing: 0;
 }
+
+/* Hide Google Translate bar completely */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
+.skiptranslate {
+  display: none !important;
+}
+#goog-gt-tt { display: none !important; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }

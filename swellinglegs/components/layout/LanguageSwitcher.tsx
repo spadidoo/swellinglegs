@@ -1,57 +1,53 @@
 'use client'
 
-import { useLocale } from 'next-intl'
-import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function LanguageSwitcher() {
-  const locale   = useLocale()
-  const pathname = usePathname()
+  const [isArabic, setIsArabic] = useState(false)
 
-  // Build the path without any locale prefix
-  // next-intl 'as-needed': English = /page, Arabic = /ar/page
-  let bare = pathname
-  if (locale === 'ar') {
-    if (pathname.startsWith('/ar/')) {
-      bare = pathname.slice(3)   // '/ar/community' → '/community'
+  // Detect current language from Google Translate cookie on load
+  useEffect(() => {
+    setIsArabic(document.cookie.includes('googtrans=/en/ar'))
+  }, [])
+
+  const switchTo = (lang: 'ar' | 'en') => {
+    if (lang === 'ar') {
+      document.cookie = 'googtrans=/en/ar; path=/'
     } else {
-      bare = '/'                 // '/ar' → '/'
+      // Delete the cookie to restore English
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'
     }
+    window.location.reload()
   }
-
-  const enHref = bare
-  const arHref = bare === '/' ? '/ar' : '/ar' + bare
 
   return (
     <div
-      className="flex items-center rounded-full border border-white/30 overflow-hidden flex-shrink-0"
-      style={{ background: 'rgba(255,255,255,0.15)' }}
+      className="flex items-center rounded-full overflow-hidden border border-brand-border bg-white shadow-sm flex-shrink-0"
       role="group"
       aria-label="Language switcher"
     >
-      <a
-        href={enHref}
-        aria-current={locale === 'en' ? 'true' : undefined}
+      <button
+        onClick={() => switchTo('en')}
         className={`px-3 py-1.5 text-xs font-semibold transition-all ${
-          locale === 'en'
-            ? 'bg-white text-brand-forest'
-            : 'text-brand-fern hover:text-brand-forest'
+          !isArabic
+            ? 'bg-brand-deep-mint text-white'
+            : 'text-brand-fern hover:bg-brand-bg hover:text-brand-forest'
         }`}
       >
         EN
-      </a>
-      <a
-        href={arHref}
-        aria-current={locale === 'ar' ? 'true' : undefined}
+      </button>
+      <div className="w-px h-4 bg-brand-border flex-shrink-0" />
+      <button
+        onClick={() => switchTo('ar')}
         lang="ar"
-        dir="rtl"
         className={`px-3 py-1.5 text-xs font-semibold transition-all ${
-          locale === 'ar'
-            ? 'bg-white text-brand-forest'
-            : 'text-brand-fern hover:text-brand-forest'
+          isArabic
+            ? 'bg-brand-deep-mint text-white'
+            : 'text-brand-fern hover:bg-brand-bg hover:text-brand-forest'
         }`}
       >
         &#x639;&#x631;&#x628;&#x64A;
-      </a>
+      </button>
     </div>
   )
 }

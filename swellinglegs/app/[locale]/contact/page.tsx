@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 const fadeUp = {
   hidden:  { opacity: 0, y: 24 },
@@ -12,9 +13,17 @@ const WHATSAPP_URL = 'https://wa.me/971507910902?text=Hi%2C%20I%20would%20like%2
 const PHONE        = '+971 50 791 0902'
 const EMAIL        = 'info@swellinglegs.ae'
 const HOURS        = 'Monday – Friday, 8:00 AM – 5:00 PM'
+const HOURS_AR     = 'الاثنين – الجمعة، 8:00 ص – 5:00 م'
 const LOCATION     = 'Genesis Healthcare, Dubai Science Park · HealthHub Festival City, Dubai'
+const LOCATION_AR  = 'جينيسيس هيلثكير، دبي للعلوم · هيلث هاب مهرجان سيتي، دبي'
 
 export default function ContactPage() {
+  const t = useTranslations('contact')
+
+  // Locale-aware data
+  const hours    = t('hoursLabel') === 'ساعات العيادة' ? HOURS_AR : HOURS
+  const location = t('locationLabel') === 'المواقع'     ? LOCATION_AR : LOCATION
+
   return (
     <main>
 
@@ -23,7 +32,6 @@ export default function ContactPage() {
         className="relative py-28 sm:py-36 px-5 text-center overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #1C3A34 0%, #2A9D8F 60%, #3DB489 100%)' }}
       >
-        {/* Background rings */}
         {[240, 400, 560].map((s, i) => (
           <motion.div
             key={s}
@@ -44,21 +52,15 @@ export default function ContactPage() {
             variants={fadeUp}
             className="inline-block bg-white/20 text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30 uppercase tracking-widest"
           >
-            Herald Medical and General Trading
+            {t('badge')}
           </motion.span>
 
-          <motion.h1
-            variants={fadeUp}
-            className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight"
-          >
-            Book a Consultation
+          <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+            {t('title')}
           </motion.h1>
 
-          <motion.p
-            variants={fadeUp}
-            className="text-white/75 text-base sm:text-lg leading-relaxed mb-10 max-w-md mx-auto"
-          >
-            The fastest way to reach us is via WhatsApp. Send us a message and our team will get back to you to confirm your appointment.
+          <motion.p variants={fadeUp} className="text-white/75 text-base sm:text-lg leading-relaxed mb-10 max-w-md mx-auto">
+            {t('subtitle')}
           </motion.p>
 
           {/* Primary WhatsApp CTA */}
@@ -71,15 +73,14 @@ export default function ContactPage() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            {/* WhatsApp SVG */}
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            Chat on WhatsApp
+            {t('ctaBtn')}
           </motion.a>
 
           <motion.p variants={fadeUp} className="text-white/50 text-sm mt-4">
-            Tap to open WhatsApp — no app download needed on desktop
+            {t('ctaHint')}
           </motion.p>
         </motion.div>
       </section>
@@ -95,7 +96,7 @@ export default function ContactPage() {
             viewport={{ once: true }}
             className="grid grid-cols-1 sm:grid-cols-2 gap-5"
           >
-            {/* WhatsApp / Phone */}
+            {/* WhatsApp */}
             <motion.a
               variants={fadeUp}
               href={WHATSAPP_URL}
@@ -109,16 +110,16 @@ export default function ContactPage() {
                 </svg>
               </div>
               <div>
-                <p className="text-brand-forest font-semibold text-sm mb-0.5">WhatsApp</p>
+                <p className="text-brand-forest font-semibold text-sm mb-0.5">{t('whatsappLabel')}</p>
                 <p className="text-brand-fern text-sm">{PHONE}</p>
-                <p className="text-[#25D366] text-xs font-medium mt-1.5 group-hover:underline">Open WhatsApp →</p>
+                <p className="text-[#25D366] text-xs font-medium mt-1.5 group-hover:underline">{t('whatsappAction')}</p>
               </div>
             </motion.a>
 
-            {/* Phone call */}
+            {/* Phone */}
             <motion.a
               variants={fadeUp}
-              href={`tel:${PHONE.replace(/\s/g, '')}`}
+              href={`tel:${PHONE.replace(/\s/g,'')}`}
               className="flex items-start gap-4 bg-brand-bg border border-brand-border rounded-2xl p-6 hover:border-brand-deep-mint hover:shadow-sm transition-all group"
             >
               <div className="w-12 h-12 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0">
@@ -127,9 +128,9 @@ export default function ContactPage() {
                 </svg>
               </div>
               <div>
-                <p className="text-brand-forest font-semibold text-sm mb-0.5">Phone</p>
+                <p className="text-brand-forest font-semibold text-sm mb-0.5">{t('phoneLabel')}</p>
                 <p className="text-brand-fern text-sm">{PHONE}</p>
-                <p className="text-brand-deep-mint text-xs font-medium mt-1.5 group-hover:underline">Tap to call →</p>
+                <p className="text-brand-deep-mint text-xs font-medium mt-1.5 group-hover:underline">{t('phoneAction')}</p>
               </div>
             </motion.a>
 
@@ -140,13 +141,12 @@ export default function ContactPage() {
             >
               <div className="w-12 h-12 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DB489" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                 </svg>
               </div>
               <div>
-                <p className="text-brand-forest font-semibold text-sm mb-0.5">Clinic hours</p>
-                <p className="text-brand-fern text-sm leading-relaxed">{HOURS}</p>
+                <p className="text-brand-forest font-semibold text-sm mb-0.5">{t('hoursLabel')}</p>
+                <p className="text-brand-fern text-sm leading-relaxed">{hours}</p>
               </div>
             </motion.div>
 
@@ -160,14 +160,13 @@ export default function ContactPage() {
             >
               <div className="w-12 h-12 bg-brand-pale-mint rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DB489" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
               <div>
-                <p className="text-brand-forest font-semibold text-sm mb-0.5">Locations</p>
-                <p className="text-brand-fern text-sm leading-relaxed">{LOCATION}</p>
-                <p className="text-brand-deep-mint text-xs font-medium mt-1.5 group-hover:underline">Open in Maps →</p>
+                <p className="text-brand-forest font-semibold text-sm mb-0.5">{t('locationLabel')}</p>
+                <p className="text-brand-fern text-sm leading-relaxed">{location}</p>
+                <p className="text-brand-deep-mint text-xs font-medium mt-1.5 group-hover:underline">{t('mapsAction')}</p>
               </div>
             </motion.a>
           </motion.div>
@@ -179,16 +178,16 @@ export default function ContactPage() {
             viewport={{ once: true }}
             className="mt-10 bg-brand-pale-mint rounded-3xl p-8 border border-brand-light-mint"
           >
-            <h3 className="text-brand-forest font-bold text-base mb-5">How booking works</h3>
+            <h3 className="text-brand-forest font-bold text-base mb-5">{t('howTitle')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {[
-                { step: '1', title: 'Send a message', desc: 'Tap the WhatsApp button and briefly describe your concern or the condition you would like assessed.' },
-                { step: '2', title: 'We confirm your slot', desc: 'Our team will reply with available appointment times and confirm your preferred date and location.' },
-                { step: '3', title: 'See Dr. Riza', desc: 'Attend your consultation at Genesis Healthcare or HealthHub. Bring any previous reports or scans if you have them.' },
-              ].map(s => (
-                <div key={s.step} className="flex items-start gap-3">
+              {([
+                { title: t('step1Title'), desc: t('step1') },
+                { title: t('step2Title'), desc: t('step2') },
+                { title: t('step3Title'), desc: t('step3') },
+              ]).map((s, i) => (
+                <div key={i} className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-brand-deep-mint text-white text-sm font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                    {s.step}
+                    {i + 1}
                   </div>
                   <div>
                     <p className="text-brand-forest font-semibold text-sm mb-1">{s.title}</p>
@@ -215,10 +214,14 @@ export default function ContactPage() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
-              Book via WhatsApp
+              {t('finalCta')}
             </a>
             <p className="text-brand-fern text-xs mt-3">
-              Or visit <a href="https://dubaivascular.ae" target="_blank" rel="noopener noreferrer" className="text-brand-deep-mint hover:underline">dubaivascular.ae</a> for more information about Dr. Riza and his practice.
+              {t('moreInfoPre')}{' '}
+              <a href="https://dubaivascular.ae" target="_blank" rel="noopener noreferrer" className="text-brand-deep-mint hover:underline">
+                dubaivascular.ae
+              </a>{' '}
+              {t('moreInfoPost')}
             </p>
           </motion.div>
 

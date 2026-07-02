@@ -46,7 +46,34 @@ export default async function LocaleLayout({
       className={`${geist.variable} ${tajawal.variable}`}
       data-scroll-behavior="smooth"
     >
+    <head>
+      {/* ADD THIS HERE */}
+      <style>{`
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+        .skiptranslate { display: none !important; }
+      `}</style>
+    </head>
       <body>
+        {/* Hidden Google Translate widget — do not remove, powers the language button */}
+        <div id="google_translate_element" style={{ display: 'none' }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                  pageLanguage: 'en',
+                  includedLanguages: 'ar',
+                  autoDisplay: false
+                }, 'google_translate_element');
+              }
+            `,
+          }}
+        />
+        <script
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          async
+        />
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           {children}
