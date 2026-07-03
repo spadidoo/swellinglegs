@@ -177,13 +177,13 @@ export default function MLDAnimation() {
                    description="Watch how a specialist performs MLD on a patient."
                  />
             */}
-            <div className="w-full">
-              <VideoPlayer
-                src="/videos/mld-demo.mp4"
-                title="Lymphatic Drainage"
-                description="Massage therapists use lymphatic drainage to help improve lymphatic circulation, decrease swelling and reduce delayed onset muscle soreness."
-                credit="Physio.co.uk"
-                creditUrl="https://www.youtube.com/watch?v=hT6RfGrR2DA"
+            <div className="relative w-full rounded-2xl overflow-hidden border border-brand-border" style={{ aspectRatio: '16/9' }}>
+              <iframe
+                src="https://www.youtube.com/embed/cjsdahqXjP8?rel=0&modestbranding=1&autoplay=1&mute=1"
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Manual Lymph Drainage demonstration"
               />
             </div>
 

@@ -1,14 +1,13 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
 const VIDEOS = [
   {
     id: 'early-detection',
-    src: '/videos/clinic-intro.mp4',
-    poster: undefined as string | undefined,
+    youtubeId: '4gvrr56exRc',
     title: 'Early Detection of Lymphedema & Lipedema',
     description: 'Nurse Nielsen Diaz explains the early warning signs of lymphedema and lipedema, and why identifying them early makes a significant difference to treatment outcomes and quality of life.',
     speaker: 'Nurse Nielsen Diaz',
@@ -17,8 +16,7 @@ const VIDEOS = [
   },
   {
     id: 'lipedema',
-    src: '/videos/lipedema.mp4',
-    poster: undefined as string | undefined,
+    youtubeId: 'iivnK5J_FXY',
     title: 'Understanding Lipedema',
     description: 'An overview of lipedema — what it is, how it differs from lymphedema and obesity, and why it is so frequently misdiagnosed despite affecting a significant number of women worldwide.',
     speaker: undefined as string | undefined,
@@ -27,8 +25,7 @@ const VIDEOS = [
   },
   {
     id: 'dvt',
-    src: '/videos/dvt-prevention.mp4',
-    poster: undefined as string | undefined,
+    youtubeId: 'PApNG5DoUYg',
     title: 'DVT Prevention Device',
     description: 'A demonstration of the DVT prevention device and how it helps reduce the risk of deep vein thrombosis, particularly for patients with limited mobility or those recovering from surgery.',
     speaker: undefined as string | undefined,
@@ -37,8 +34,7 @@ const VIDEOS = [
   },
   {
     id: 'compression',
-    src: '/videos/compression-stockings.mp4',
-    poster: undefined as string | undefined,
+    youtubeId: 'jIYdcArBPt8',
     title: 'Compression Stockings — How They Help',
     description: 'Learn how compression stockings work, how to wear and fit them correctly, and why they are a key daily component of managing lymphedema, lipedema, and venous conditions.',
     speaker: undefined as string | undefined,
@@ -47,8 +43,7 @@ const VIDEOS = [
   },
   {
     id: 'mld',
-    src: '/videos/manual-lymphatic-drainage.mp4',
-    poster: undefined as string | undefined,
+    youtubeId: 'y15lA9klK9k',
     title: 'Manual Lymphatic Drainage',
     description: 'A hands-on demonstration of manual lymphatic drainage technique, showing the precise, gentle strokes used to guide lymph fluid from the limbs toward functioning lymph nodes.',
     speaker: undefined as string | undefined,
@@ -75,15 +70,9 @@ function EqBars({ color }: { color: string }) {
 
 export default function VideosPlaylist() {
   const [activeIdx, setActiveIdx] = useState(0)
-  const [playing,   setPlaying]   = useState(false)
-  const [muted,     setMuted]     = useState(true)
-  const [progress,  setProgress]  = useState(0)
-  const [failed,    setFailed]    = useState<Record<string, boolean>>({})
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const active   = VIDEOS[activeIdx]
-  const t        = useTranslations('community')
+  const active = VIDEOS[activeIdx]
+  const t = useTranslations('community')
 
-  // Translated tag labels
   const tagLabel = (tag: string) => {
     if (tag === 'Education') return t('tagEducation')
     if (tag === 'Lipedema')  return t('tagLipedema')
@@ -91,35 +80,9 @@ export default function VideosPlaylist() {
     return tag
   }
 
-  useEffect(() => {
-    setPlaying(false)
-    setProgress(0)
-    videoRef.current?.load()
-  }, [activeIdx])
-
-  const togglePlay = () => {
-    const v = videoRef.current
-    if (!v) return
-    if (v.paused) { v.play(); setPlaying(true) }
-    else          { v.pause(); setPlaying(false) }
-  }
-
-  const toggleMute = () => {
-    if (!videoRef.current) return
-    videoRef.current.muted = !muted
-    setMuted(m => !m)
-  }
-
-  const seek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const v = videoRef.current
-    if (!v?.duration) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    v.currentTime = ((e.clientX - rect.left) / rect.width) * v.duration
-  }
-
   return (
     <div>
-      {/* Header — translated */}
+      {/* Header */}
       <div className="mb-8">
         <p className="text-brand-deep-mint text-xs font-semibold uppercase tracking-widest mb-2">
           {t('videosLabel')}
@@ -132,129 +95,34 @@ export default function VideosPlaylist() {
         </p>
       </div>
 
-      {/* Layout: player left, sidebar right */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
 
         {/* Player */}
         <div className="w-full min-w-0 lg:flex-1">
           <div className="bg-white rounded-2xl border border-brand-border overflow-hidden">
 
-            {/* Video area */}
+            {/* YouTube embed — 9:16 ratio for Shorts */}
             <div
-              className="relative bg-brand-forest group w-full"
+              className="relative w-full bg-black"
               style={{ aspectRatio: '9 / 16', maxHeight: '70vh' }}
             >
-              {failed[active.id] ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-bg">
-                  <div className="w-14 h-14 rounded-full bg-brand-pale-mint flex items-center justify-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DB489" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="23 7 16 12 23 17 23 7"/>
-                      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                    </svg>
-                  </div>
-                  <div className="text-center px-6">
-                    <p className="text-brand-forest text-sm font-medium mb-1">Video not found</p>
-                    <p className="text-brand-fern text-xs">
-                      Add <code className="bg-brand-pale-mint px-1 rounded">{active.src}</code> to your{' '}
-                      <code className="bg-brand-pale-mint px-1 rounded">public/</code> folder.
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <video
-                    ref={videoRef}
-                    src={active.src}
-                    poster={active.poster}
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 w-full h-full object-contain bg-black"
-                    onError={() => setFailed(f => ({ ...f, [active.id]: true }))}
-                    onTimeUpdate={() => {
-                      const v = videoRef.current
-                      if (v?.duration) setProgress((v.currentTime / v.duration) * 100)
-                    }}
-                    onEnded={() => {
-                      setPlaying(false)
-                      if (activeIdx < VIDEOS.length - 1) {
-                        setTimeout(() => setActiveIdx(i => i + 1), 800)
-                      }
-                    }}
-                  />
-
-                  {/* Play / pause overlay */}
-                  <div
-                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                      playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'
-                    }`}
-                    style={{ background: 'rgba(28,58,52,0.38)' }}
-                  >
-                    <button
-                      onClick={togglePlay}
-                      aria-label={playing ? 'Pause' : 'Play'}
-                      className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 flex items-center justify-center hover:bg-white/30 transition-colors"
-                    >
-                      {playing ? (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-                          <rect x="6" y="4" width="4" height="16" rx="1"/>
-                          <rect x="14" y="4" width="4" height="16" rx="1"/>
-                        </svg>
-                      ) : (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-                          <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                      )}
-                    </button>
-                  </div>
-
-                  {/* Mute toggle */}
-                  <button
-                    onClick={toggleMute}
-                    aria-label={muted ? 'Unmute' : 'Mute'}
-                    className="absolute bottom-4 right-3 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center hover:bg-black/50 transition-colors"
-                  >
-                    {muted ? (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                        <line x1="23" y1="9" x2="17" y2="15"/>
-                        <line x1="17" y1="9" x2="23" y2="15"/>
-                      </svg>
-                    ) : (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                      </svg>
-                    )}
-                  </button>
-
-                  {/* Playing badge */}
-                  {playing && (
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-brand-coral/90 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
-                      <motion.div
-                        className="w-1.5 h-1.5 rounded-full bg-white"
-                        animate={{ opacity: [1, 0.3, 1] }}
-                        transition={{ duration: 1.2, repeat: Infinity }}
-                      />
-                      Playing
-                    </div>
-                  )}
-
-                  {/* Progress bar */}
-                  <div
-                    className="absolute bottom-0 inset-x-0 h-1 bg-white/20 cursor-pointer"
-                    onClick={seek}
-                  >
-                    <motion.div
-                      className="h-full bg-brand-deep-mint origin-left"
-                      style={{ scaleX: progress / 100 }}
-                    />
-                  </div>
-                </>
-              )}
+              <AnimatePresence mode="wait">
+                <motion.iframe
+                  key={active.youtubeId}
+                  src={`https://www.youtube.com/embed/${active.youtubeId}?rel=0&modestbranding=1`}
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={active.title}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </AnimatePresence>
             </div>
 
-            {/* Video info — tag translated */}
+            {/* Video info */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
@@ -280,18 +148,32 @@ export default function VideosPlaylist() {
                       {active.speaker}
                     </span>
                   )}
-                  <span className="text-xs text-brand-fern ml-auto">{activeIdx + 1} / {VIDEOS.length}</span>
+                  <span className="text-xs text-brand-fern ml-auto">
+                    {activeIdx + 1} / {VIDEOS.length}
+                  </span>
                 </div>
                 <h3 className="text-brand-forest font-bold text-base mb-1">{active.title}</h3>
                 <p className="text-brand-fern text-sm leading-relaxed">{active.description}</p>
+
+                {/* Open on YouTube link */}
+                <a
+                  href={`https://www.youtube.com/watch?v=${active.youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 mt-3 text-xs text-brand-fern hover:text-brand-forest transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" fill="#FF0000" width="14" height="14">
+                    <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  Open on YouTube
+                </a>
               </motion.div>
             </AnimatePresence>
-
           </div>
         </div>
 
         {/* Sidebar playlist */}
-        <div className="w-full lg:w-72 lg:flex-shrink-0 flex flex-col gap-2 lg:max-h-[520px] lg:overflow-y-auto">
+        <div className="w-full lg:w-72 lg:flex-shrink-0 flex flex-col gap-2 lg:max-h-[600px] lg:overflow-y-auto">
           {VIDEOS.map((v, i) => {
             const isActive = i === activeIdx
             return (
@@ -307,29 +189,38 @@ export default function VideosPlaylist() {
                     : 'bg-white/60 border-brand-border hover:border-brand-deep-mint hover:bg-white'
                 }`}
               >
-                <div
-                  className="w-16 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ background: v.tagColor + '22' }}
-                >
-                  {isActive && playing ? (
-                    <EqBars color={v.tagColor} />
-                  ) : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill={isActive ? v.tagColor : '#C8DDD8'}>
-                      <polygon points="5 3 19 12 5 21 5 3"/>
-                    </svg>
+                {/* YouTube thumbnail */}
+                <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-black relative">
+                  <img
+                    src={`https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg`}
+                    alt={v.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {isActive && (
+                    <div className="absolute inset-0 bg-brand-deep-mint/60 flex items-center justify-center">
+                      <EqBars color="white" />
+                    </div>
                   )}
                 </div>
+
+                {/* Title */}
                 <div className="flex-1 min-w-0">
-                  <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: v.tagColor }}>
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-wide"
+                    style={{ color: v.tagColor }}
+                  >
                     {tagLabel(v.tag)}
                   </span>
-                  <p className={`text-xs font-medium leading-snug mt-0.5 line-clamp-2 ${isActive ? 'text-brand-forest' : 'text-brand-fern'}`}>
+                  <p className={`text-xs font-medium leading-snug mt-0.5 line-clamp-2 ${
+                    isActive ? 'text-brand-forest' : 'text-brand-fern'
+                  }`}>
                     {v.title}
                   </p>
                   {v.speaker && (
                     <p className="text-[10px] text-brand-fern/70 mt-0.5">{v.speaker}</p>
                   )}
                 </div>
+
                 {isActive && (
                   <div className="w-2 h-2 rounded-full bg-brand-deep-mint flex-shrink-0 mt-1" />
                 )}
