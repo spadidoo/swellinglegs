@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, type Variants } from "framer-motion";
 import { useTranslations } from 'next-intl'
 import HeroCarousel from '@/components/home/HeroCarousel'
 import LymphaticEducation from '@/components/home/LymphaticEducation'
 import ConditionModal, { type ModalType } from '@/components/home/ConditionModal'
 import AnatomyIllustration from '@/components/home/AnatomyIllustration'
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
 }

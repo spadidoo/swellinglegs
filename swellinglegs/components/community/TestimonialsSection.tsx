@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { supabase, type Testimonial } from '@/lib/supabase'
 import { staticStories, type StoryItem } from '@/data/community'
 
@@ -28,7 +28,7 @@ function getDisplayName(name: string | null, isAnon: boolean) {
   return name.trim()
 }
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 }

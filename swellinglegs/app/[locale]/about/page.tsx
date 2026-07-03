@@ -1,13 +1,19 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { motion, type Variants, useInView, AnimatePresence } from 'framer-motion'
 
 // ── Helpers ───────────────────────────────────────────────────────
-const fadeUp = {
-  hidden:  { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-}
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 const stagger = {
   hidden:  {},
   visible: { transition: { staggerChildren: 0.12 } },
