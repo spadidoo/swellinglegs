@@ -53,7 +53,7 @@ export type EventItem = {
 export const events: EventItem[] = [
 
   // ── Paste new events here (at the top) ──
-
+/*
   {
     id: 1,
     title: 'Lymphedema Awareness Workshop',
@@ -76,7 +76,7 @@ export const events: EventItem[] = [
     type: 'Support group',
     // No image or link for this one — both are optional
   },
-
+*/
 ]
 
 
@@ -113,7 +113,7 @@ export type StoryItem = {
 export const staticStories: StoryItem[] = [
 
   // ── Paste new stories here (at the top) ──
-
+/*
   {
     id: 's1',
     name: 'Fatima Al-Rashidi',
@@ -153,7 +153,7 @@ export const staticStories: StoryItem[] = [
     story: 'My lymphedema began after surgery on my left leg. The swelling was painful and I was struggling to walk. The clinic created a personalised treatment plan. The drainage sessions gave immediate relief and the compression guidance has helped me maintain it between appointments. A very professional and caring team.',
     created_at: '2026-01-10T10:00:00Z',
   },
-
+*/
 ]
 
 
@@ -171,23 +171,21 @@ export const staticStories: StoryItem[] = [
 //    3. Recommended size: at least 800px wide, JPEG format.
 // ──────────────────────────────────────────────────────────────────
 
-export type GalleryPhoto = { src: string; alt: string; caption: string }
+export type GalleryPhoto = { src: string}
 
 export const galleryPhotos: GalleryPhoto[] = [
 
   // ── Add more photos here — the grid adjusts automatically ──
+  //src: '/images/photo1.jpg', alt: 'Clinic consultation room', caption: 'Our consultation suite' },
+  //; alt: string; caption: string 
 
-  { src: '/images/photo1.jpg', alt: 'Clinic consultation room', caption: 'Our consultation suite' },
-  { src: '/images/photo2.jpg', alt: 'Doctor consulting patient', caption: 'Expert care for every patient' },
-  { src: '/images/photo3.jpg', alt: 'Medical team at work', caption: 'Our dedicated team' },
-  { src: '/images/photo4.jpg', alt: 'Medical equipment and care', caption: 'State-of-the-art equipment' },
-  { src: '/images/photo5.jpg', alt: 'Healthcare professionals', caption: 'Our specialist team' },
-  { src: '/images/photo6.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
-  { src: '/images/photo7.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
-  { src: '/images/photo8.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
-  { src: '/images/photo9.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
-  { src: '/images/photo10.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
-  { src: '/images/photo11.jpg', alt: 'Patient care session', caption: 'Personalised treatment sessions' },
+  { src: '/images/photo1.jpg'},
+  { src: '/images/photo3.jpg'},
+  { src: '/images/photo4.jpg'},
+  { src: '/images/photo8.jpg'},
+  { src: '/images/photo9.jpg'},
+  { src: '/images/photo10.jpg'},
+  { src: '/images/photo11.jpg'},
 ]
 
 

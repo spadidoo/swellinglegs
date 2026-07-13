@@ -6,6 +6,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import '../globals.css'
+import Script from 'next/script'
 
 const geist = Geist({
   subsets: ['latin'],
@@ -54,25 +55,20 @@ export default async function LocaleLayout({
         .skiptranslate { display: none !important; }
       `}</style>
     </head>
-      <body>
-        {/* Hidden Google Translate widget — do not remove, powers the language button */}
-        <div id="google_translate_element" style={{ display: 'none' }} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              function googleTranslateElementInit() {
-                new google.translate.TranslateElement({
-                  pageLanguage: 'en',
-                  includedLanguages: 'ar',
-                  autoDisplay: false
-                }, 'google_translate_element');
-              }
-            `,
-          }}
-        />
-        <script
+      <body suppressHydrationWarning>
+        <div id="google_translate_element" style={{ display: 'none' }} suppressHydrationWarning />
+        <Script id="google-translate-init" strategy="afterInteractive">{`
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+              pageLanguage: 'en',
+              includedLanguages: 'ar',
+              autoDisplay: false
+            }, 'google_translate_element');
+          }
+        `}</Script>
+        <Script
           src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          async
+          strategy="afterInteractive"
         />
         <NextIntlClientProvider messages={messages}>
           <Navbar />

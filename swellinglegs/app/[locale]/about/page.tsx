@@ -590,9 +590,14 @@ export default function AboutPage() {
                   {/* Patient quote about Nielsen */}
                   <blockquote className="border-l-2 border-brand-deep-mint pl-4 mt-4">
                     <p className="text-brand-fern italic text-sm leading-relaxed">
-                      "Doctor Ibrahim is very accommodating — he explains everything clearly. Nurse Nielsen is so helpful as well! Kudos for both of them."
+                      "5 things i always tell my patients when treating them:
+                      Massage,
+                      Exercise,
+                      Diet,
+                      Pump,
+                      and Compression"
                     </p>
-                    <p className="text-brand-deep-mint text-xs mt-2">— J. Condez, patient</p>
+                    <p className="text-brand-deep-mint text-xs mt-2"></p>
                   </blockquote>
 
                 </motion.div>
