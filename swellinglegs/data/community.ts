@@ -171,7 +171,7 @@ export const staticStories: StoryItem[] = [
 //    3. Recommended size: at least 800px wide, JPEG format.
 // ──────────────────────────────────────────────────────────────────
 
-export type GalleryPhoto = { src: string}
+export type GalleryPhoto = { src: string; alt: string; caption: string }
 
 export const galleryPhotos: GalleryPhoto[] = [
 
@@ -179,13 +179,13 @@ export const galleryPhotos: GalleryPhoto[] = [
   //src: '/images/photo1.jpg', alt: 'Clinic consultation room', caption: 'Our consultation suite' },
   //; alt: string; caption: string 
 
-  { src: '/images/photo1.jpg'},
-  { src: '/images/photo3.jpg'},
-  { src: '/images/photo4.jpg'},
-  { src: '/images/photo8.jpg'},
-  { src: '/images/photo9.jpg'},
-  { src: '/images/photo10.jpg'},
-  { src: '/images/photo11.jpg'},
+  { src: '/images/photo1.jpg', alt: 'Clinic consultation room', caption: '' },
+  { src: '/images/photo3.jpg', alt: 'Treatment area', caption: '' },
+  { src: '/images/photo4.jpg', alt: 'Patient with lymphedema', caption: '' },
+  { src: '/images/photo8.jpg', alt: 'Team meeting', caption: '' },
+  { src: '/images/photo9.jpg', alt: 'Patient consultation', caption: '' },
+  { src: '/images/photo10.jpg', alt: 'Modern facility', caption: '' },
+  { src: '/images/photo11.jpg', alt: 'Community event', caption: '' },
 ]
 
 
