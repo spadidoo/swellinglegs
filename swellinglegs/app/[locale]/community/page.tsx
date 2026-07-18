@@ -4,9 +4,12 @@ import { events, galleryPhotos, TIKTOK_USERNAME } from '@/data/community'
 import CommunityHero from '@/components/community/CommunityHero'
 import EventsTimeline from '@/components/community/EventsTimeline'
 import VideosPlaylist from '@/components/community/VideosPlaylist'
-import PhotoGallery from '@/components/community/PhotoGallery'
-import TestimonialsSection from '@/components/community/TestimonialsSection'
-import InstagramEducation from '@/components/home/InstagramEducation'
+import dynamic from 'next/dynamic'
+
+// REPLACE all three dynamic imports with these:
+const InstagramEducation  = dynamic(() => import('@/components/home/InstagramEducation'))
+const PhotoGallery        = dynamic(() => import('@/components/community/PhotoGallery'))
+const TestimonialsSection = dynamic(() => import('@/components/community/TestimonialsSection'))
 
 const socials = [
   { platform: 'Instagram', handle: '@vasculardxb',      url: 'https://www.instagram.com/vasculardxb/',     bg: 'bg-[#FFF0F5]', text: 'text-[#C13584]' },

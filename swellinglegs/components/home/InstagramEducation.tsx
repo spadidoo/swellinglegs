@@ -1,113 +1,83 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-// import Script from 'next/script'
+import Script from 'next/script'
 
-// ════════════════════════════════════════════════════════════════════════
-//  ADD YOUR VIDEOS HERE — this is the only place you need to edit
-//
-//  How to get an Instagram URL:
-//    1. Open the post or reel on instagram.com (desktop)
-//    2. Copy the URL from the address bar
-//       e.g. https://www.instagram.com/reel/AbCdEfGhIjK/
-//
-//  Videos show one at a time. Use ← → arrows or swipe to navigate.
-//  Add as many as you like — the carousel loops automatically.
-// ════════════════════════════════════════════════════════════════════════
-
+// ── Add your Instagram post URLs here ─────────────────────────────
 const VIDEOS = [
   {
-    url: 'https://www.instagram.com/reels/DZiD4k4tfa0/',
+    url: 'https://www.instagram.com/p/DZiD4k4tfa0/',
     title: 'Lipedema Awareness Month: Understanding Lymphatic Massage',
-    summary: 'Nurse Nielsen explains how manual lymphatic drainage can help manage symptoms of lipedema, including swelling, pain, and heaviness. Learn why treatment by a certified lymphatic therapist is important and how it fits into a comprehensive lipedema care plan.',
+    summary: 'Nurse Nielsen explains how manual lymphatic drainage can help manage symptoms of lipedema, including swelling, pain, and heaviness.',
     tags: ['lipedema', 'lymphatic-drainage', 'awareness'],
   },
   {
-    url: 'https://www.instagram.com/reels/DWjaVAtDWSB/',
+    url: 'https://www.instagram.com/p/DWjaVAtDWSB/',
     title: 'Do Varicose Veins Always Come Back?',
-    summary: 'Dr. Ibrahim Riza discusses a common misconception about varicose veins and explains how modern ultrasound-guided treatments, such as laser and glue procedures, have significantly improved long-term outcomes and reduced recurrence rates.',
+    summary: 'Dr. Ibrahim Riza discusses how modern ultrasound-guided treatments have significantly improved long-term outcomes and reduced recurrence rates.',
     tags: ['varicose-veins', 'vascular-health', 'treatment'],
   },
   {
-    url: 'https://www.instagram.com/reels/DUVZJCBDc4t/',
+    url: 'https://www.instagram.com/p/DUVZJCBDc4t/',
     title: 'Frequently Asked Questions About Lymphatic Drainage',
-    summary: 'Nurse Nielsen answers common questions about lymphatic drainage therapy, including how it helps with lymphedema and lipedema, its safety during pregnancy, expected results, and its benefits for both body and facial swelling.',
+    summary: 'Nurse Nielsen answers common questions about lymphatic drainage therapy, including how it helps with lymphedema and lipedema.',
     tags: ['lymphatic-drainage', 'lymphedema', 'lipedema'],
   },
   {
-    url: 'https://www.instagram.com/reels/DZFL5YqtMxa/',
+    url: 'https://www.instagram.com/p/DZFL5YqtMxa/',
     title: 'What Can a Vascular Screening Detect?',
-    summary: 'Dr. Ibrahim Riza explains the importance of vascular screening and the conditions it can help identify, including varicose veins, venous insufficiency, deep vein thrombosis (DVT), peripheral arterial disease, carotid artery disease, and aneurysms.',
+    summary: 'Dr. Ibrahim Riza explains the importance of vascular screening and the conditions it can help identify early.',
     tags: ['vascular-screening', 'vascular-health', 'prevention'],
   },
 ]
 
-// ════════════════════════════════════════════════════════════════════════
-
-function isPlaceholder(url: string) {
-  return url.includes('REPLACE_ME')
-}
-
-function getShortcode(url: string) {
-  const match = url.match(/\/(p|reel)\/([A-Za-z0-9_-]+)/)
-  return match ? match[2] : ''
+// ── Process Instagram embeds ───────────────────────────────────────
+function processEmbeds() {
+  if (typeof window !== 'undefined' && (window as any).instgrm?.Embeds) {
+    ;(window as any).instgrm.Embeds.process()
+  }
 }
 
 function InstagramEmbed({ url }: { url: string }) {
-  if (isPlaceholder(url)) {
-    return (
-      <div className="w-full max-w-sm mx-auto rounded-2xl border-2 border-dashed border-brand-border bg-brand-bg flex flex-col items-center justify-center gap-3 text-center p-6" style={{ minHeight: '360px' }}>
-        <div className="w-14 h-14 bg-brand-pale-mint rounded-full flex items-center justify-center">
-          <i className="ti ti-brand-instagram text-2xl text-brand-deep-mint" />
-        </div>
-        <p className="text-brand-forest font-medium text-sm">Video placeholder</p>
-        <p className="text-brand-fern text-xs leading-relaxed max-w-[180px]">
-          Paste a real Instagram URL into <code className="bg-brand-pale-mint px-1 rounded">InstagramEducation.tsx</code>
-        </p>
-      </div>
-    )
-  }
+  const ref = useRef<HTMLDivElement>(null)
 
-  const shortcode = getShortcode(url)
-  if (!shortcode) return null
+  useEffect(() => {
+    // Try processing immediately, then retry a few times
+    // to handle cases where script loads after component mounts
+    processEmbeds()
+    const t1 = setTimeout(processEmbeds, 800)
+    const t2 = setTimeout(processEmbeds, 2000)
+    const t3 = setTimeout(processEmbeds, 4000)
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+  }, [url])
 
   return (
-    <div className="w-full max-w-sm mx-auto rounded-2xl overflow-hidden border border-brand-border bg-white">
-      <iframe
-        src={`https://www.instagram.com/p/${shortcode}/embed/`}
-        width="100%"
-        height="580"
-        frameBorder="0"
-        scrolling="no"
-        allowFullScreen
-        title="Instagram post"
-        style={{ display: 'block' }}
+    <div ref={ref} className="w-full max-w-sm mx-auto">
+      {/* Official Instagram embed — blockquote is required, do not change to iframe */}
+      <blockquote
+        className="instagram-media"
+        data-instgrm-captioned
+        data-instgrm-permalink={url}
+        data-instgrm-version="14"
+        style={{ maxWidth: '100%', width: '100%', margin: 0, border: 'none' }}
       />
     </div>
   )
 }
 
 export default function InstagramEducation() {
-  const [index, setIndex] = useState(0)
+  const [index,     setIndex]     = useState(0)
   const [direction, setDirection] = useState(1)
+  const video = VIDEOS[index]
 
   const go = (next: number) => {
     const clamped = (next + VIDEOS.length) % VIDEOS.length
-    setDirection(clamped > index || (index === VIDEOS.length - 1 && clamped === 0) ? 1 : -1)
+    setDirection(clamped > index ? 1 : -1)
     setIndex(clamped)
   }
 
-  const video = VIDEOS[index]
-
-  // Swipe handling
   const dragStart = useRef(0)
-  const onDragStart = (_: any, info: any) => { dragStart.current = info.point.x }
-  const onDragEnd   = (_: any, info: any) => {
-    const delta = info.point.x - dragStart.current
-    if (delta < -40) go(index + 1)
-    if (delta >  40) go(index - 1)
-  }
 
   const variants = {
     enter:  (d: number) => ({ x: d > 0 ? 80 : -80, opacity: 0 }),
@@ -117,7 +87,13 @@ export default function InstagramEducation() {
 
   return (
     <div className="py-20 px-5 bg-white border-y border-brand-border overflow-hidden">
-      {/* <Script src="https://www.instagram.com/embeds.js" strategy="lazyOnload" /> */}
+
+      {/* Load Instagram embed script once — processes all blockquotes on page */}
+      <Script
+        src="https://www.instagram.com/embeds.js"
+        strategy="afterInteractive"
+        onLoad={processEmbeds}
+      />
 
       <div className="max-w-5xl mx-auto">
 
@@ -129,18 +105,20 @@ export default function InstagramEducation() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-4">
-            <i className="ti ti-brand-instagram text-sm" />
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
             @vasculardxb on Instagram
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-brand-forest mb-2">Watch and learn</h2>
           <p className="text-brand-fern text-sm">Short educational videos. Swipe or use arrows to browse.</p>
         </motion.div>
 
-        {/* Main layout: video left, info right */}
-        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 items-center justify-items-center">
+        {/* Carousel layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 items-start justify-items-center">
 
-          {/* Video carousel */}
-          <div className="w-full max-w-sm relative">
+          {/* Embed carousel */}
+          <div className="w-full max-w-sm relative min-h-[500px]">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={index}
@@ -152,29 +130,26 @@ export default function InstagramEducation() {
                 transition={{ duration: 0.35, ease: 'easeInOut' }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                onDragStart={onDragStart}
-                onDragEnd={onDragEnd}
+                onDragStart={(_: any, info: any) => { dragStart.current = info.point.x }}
+                onDragEnd={(_: any, info: any) => {
+                  const delta = info.point.x - dragStart.current
+                  if (delta < -40) go(index + 1)
+                  if (delta >  40) go(index - 1)
+                }}
                 style={{ touchAction: 'pan-y' }}
               >
                 <InstagramEmbed url={video.url} />
               </motion.div>
             </AnimatePresence>
-
-            {/* Swipe hint on mobile */}
-            <p className="text-center text-brand-fern text-xs mt-3 sm:hidden opacity-60">
-              ← swipe to browse →
-            </p>
           </div>
 
           {/* Info panel */}
           <div className="w-full max-w-md">
 
-            {/* Counter */}
             <p className="text-brand-fern text-xs font-medium mb-4 uppercase tracking-widest">
               {index + 1} / {VIDEOS.length}
             </p>
 
-            {/* Title + summary with transition */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
@@ -199,83 +174,53 @@ export default function InstagramEducation() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation */}
+            {/* Navigation arrows + dots */}
             <div className="flex items-center gap-4">
-
-              {/* Prev arrow */}
-              <button
-                onClick={() => go(index - 1)}
-                aria-label="Previous video"
-                className="w-10 h-10 flex items-center justify-center rounded-full border border-brand-border text-brand-fern hover:border-brand-deep-mint hover:text-brand-forest transition-all"
-              >
+              <button onClick={() => go(index - 1)} aria-label="Previous"
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-brand-border text-brand-fern hover:border-brand-deep-mint hover:text-brand-forest transition-all">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="11 4 6 9 11 14" />
+                  <polyline points="11 4 6 9 11 14"/>
                 </svg>
               </button>
 
-              {/* Dot indicators */}
               <div className="flex items-center gap-1.5">
                 {VIDEOS.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => go(i)}
-                    aria-label={`Go to video ${i + 1}`}
+                  <button key={i} onClick={() => go(i)} aria-label={`Video ${i + 1}`}
                     className="rounded-full transition-all duration-300"
-                    style={{
-                      width:      i === index ? 20 : 6,
-                      height:     6,
-                      background: i === index ? '#3DB489' : '#C8DDD8',
-                    }}
+                    style={{ width: i === index ? 20 : 6, height: 6, background: i === index ? '#3DB489' : '#C8DDD8' }}
                   />
                 ))}
               </div>
 
-              {/* Next arrow */}
-              <button
-                onClick={() => go(index + 1)}
-                aria-label="Next video"
-                className="w-10 h-10 flex items-center justify-center rounded-full border border-brand-border text-brand-fern hover:border-brand-deep-mint hover:text-brand-forest transition-all"
-              >
+              <button onClick={() => go(index + 1)} aria-label="Next"
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-brand-border text-brand-fern hover:border-brand-deep-mint hover:text-brand-forest transition-all">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="7 4 12 9 7 14" />
+                  <polyline points="7 4 12 9 7 14"/>
                 </svg>
               </button>
             </div>
 
-            {/* View on Instagram link */}
-            {!isPlaceholder(video.url) && (
-              <a
-                href={video.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 text-xs text-brand-fern hover:text-brand-forest transition-colors"
-              >
-                <i className="ti ti-brand-instagram text-sm" />
-                Open on Instagram
-                <i className="ti ti-arrow-right text-xs" />
-              </a>
-            )}
+            {/* Open on Instagram link */}
+            <a href={video.url} target="_blank" rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center gap-2 text-xs text-brand-fern hover:text-brand-forest transition-colors">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              Open on Instagram
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M1 9L9 1M9 1H3M9 1V7"/>
+              </svg>
+            </a>
           </div>
         </div>
 
         {/* Follow link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <a
-            href="https://www.instagram.com/vasculardxb/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-brand-fern hover:text-brand-forest transition-colors border border-brand-border rounded-full px-5 py-2.5 hover:border-brand-deep-mint"
-          >
-            <i className="ti ti-brand-instagram" />
+        <div className="text-center mt-12">
+          <a href="https://www.instagram.com/vasculardxb/" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-brand-fern hover:text-brand-forest transition-colors border border-brand-border rounded-full px-5 py-2.5 hover:border-brand-deep-mint">
             See all posts at @vasculardxb
-            <i className="ti ti-arrow-right text-xs" />
           </a>
-        </motion.div>
+        </div>
       </div>
     </div>
   )
